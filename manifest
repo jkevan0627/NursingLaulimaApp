@@ -1,9 +1,9 @@
-#appname: NursingLaulimaApp
-#appid: edu.hawaii.sondh.nursinglaulima
-#type: mobile
-#guid: 0a70e5e1-140c-441e-8eb8-94c6627e4ace
-#version: 1.0
-#publisher: not specified
-#url: not specified
-#image: appicon.png
-#desc: not specified
+#appname:NursingLaulimaApp
+#appid:edu.hawaii.sondh.nursinglaulima
+#type:mobile
+#guid:0a70e5e1-140c-441e-8eb8-94c6627e4ace
+#version:1.0
+#publisher:Alex
+#url:http://
+#image:appicon.png
+#desc:not specified

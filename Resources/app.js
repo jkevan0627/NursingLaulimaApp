@@ -92,9 +92,7 @@ nursApp.system = {
 		// Store the last time Laulima was accessed successfully
 		var timeStamp = new Date();
 		nursApp.system.lastAccess = timeStamp.getTime();
-	},
-	
-	initCounter : 0
+	}
 };
 
 //classes information
@@ -104,6 +102,9 @@ nursApp.userData.classes = {};
 nursApp.ui = {};
 
 nursApp.posts = {};
+// You should do something interesting in this harness 
+// to test out the module and to provide instructions 
+// to users on how to use it by example.
 
 // open the login window screen
 var login = require('/ui/handheld/loginWindow');

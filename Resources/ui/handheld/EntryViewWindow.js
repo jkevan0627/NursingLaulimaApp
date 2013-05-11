@@ -1,6 +1,7 @@
 function createEntryView (entryInfo, id, blogId) {
     
-    
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.passCheckpoint("View Entry successful");
     //top left button of the navgroup
     var btnLeft = Ti.UI.createButton({
         title:'Entries'
@@ -17,7 +18,8 @@ function createEntryView (entryInfo, id, blogId) {
             title:'Edit'
         });
         btnRight.addEventListener('click', function(){  
-
+            var editEntry = require ('/ui/handheld/editEntryWindow');
+            editEntry.initialize(entryInfo[id].children[0].text, entryInfo[id].children[1].text, entryInfo[id].children[0].entryId);
         });
     }
     
@@ -60,12 +62,16 @@ function createEntryView (entryInfo, id, blogId) {
     
     //Swiping between post entries.
     view.addEventListener('swipe', function (e) {
+            var TestflightTi = require('com.clinsoftsolutions.testflight');
+    
        if(e.direction == 'left' && id < entryInfo.length - 1) {
+           TestflightTi.passCheckpoint("Swiped left");
            id = id + 1;
            winTitle.setText(entryInfo[id].children[0].text);
            entryBody.setText(entryInfo[id].children[1].text);
        } 
        if(e.direction == 'right' && id > 0) {
+           TestflightTi.passCheckpoint("Swiped right");
            id = id - 1;
            winTitle.setText(entryInfo[id].children[0].text);
            entryBody.setText(entryInfo[id].children[1].text);

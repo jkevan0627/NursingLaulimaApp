@@ -1,13 +1,13 @@
-function initialize (userInfo, blogTable)  {
+function initialize (title, body, entryId)  {
     
     var title;
     var text;
     
     function restError() {
         var TestflightTi = require('com.clinsoftsolutions.testflight');
-        TestflightTi.passCheckpoint("Create Post Entry ERROR");
+        TestflightTi.passCheckpoint("Edit Entry ERROR");
         alert('Bad internet connection. Could not connect to Laulima');
-        nursApp.ui['createBlogEntryWindow'].win.setTouchEnabled(true);
+        nursApp.ui['editBlogEntryWindow'].win.setTouchEnabled(true);
     }
 
     //FirstView Component Constructor
@@ -19,7 +19,7 @@ function initialize (userInfo, blogTable)  {
     
         var winTitle = Titanium.UI.createLabel({
             color:'white',
-            text:'New Post',
+            text:title,
             textAlign:'center',
             font:{fontFamily:'Dakota', fontSize:'22pt'}     
         });
@@ -33,7 +33,7 @@ function initialize (userInfo, blogTable)  {
         });
         self.setTitleControl(winTitle);
         //to be used later
-        nursApp.ui['createBlogEntryWindow'] = {
+        nursApp.ui['editBlogEntryWindow'] = {
             win: self
         };
         
@@ -107,7 +107,8 @@ function initialize (userInfo, blogTable)  {
             paddingLeft:8,
             height:44,
             font:{fontFamily:'Optima',fontSize:'17pt'},
-            keyboardToolbar : toolbarTitle
+            keyboardToolbar : toolbarTitle,
+            value: title
         })
         wrapper.add(txtBlogTitle);
         
@@ -121,7 +122,8 @@ function initialize (userInfo, blogTable)  {
             paddingLeft:8,
             font:{fontFamily:'Optima',fontSize:'17pt'},
             suppressReturn:false,
-            keyboardToolbar : toolbarTextArea
+            keyboardToolbar : toolbarTextArea,
+            value: body
         })
         wrapper.add(txtBlogTextArea);
         self.add(wrapper);
@@ -165,7 +167,7 @@ function initialize (userInfo, blogTable)  {
             top: 15,
             width: 90,
             height:34,
-            title:'POST',
+            title:'UPDATE',
             font:{fontFamily:'Optima',fontSize:'14pt'},
             style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
         })
@@ -186,17 +188,17 @@ function initialize (userInfo, blogTable)  {
                 restCall.newLaulimaSession();
             }
     
-            var url = 'https://laulima.hawaii.edu/direct/blog-entry?sakai.sessionId=' + nursApp.userData.sessionID + 
-            "&blog.id=" + userInfo.blogId + "&text=" + txtBlogTextArea.value + 
-            "&title=" + txtBlogTitle.value + "&privacySetting=" + nursApp.userData.blogPrivacySetting;
+            var url = 'https://laulima.hawaii.edu/direct/blog-entry/' + entryId + '?sakai.sessionId=' + nursApp.userData.sessionID + '&text=' + txtBlogTextArea.value + '&title=' + txtBlogTitle.value;
             
             title = txtBlogTitle.value;
             text = txtBlogTextArea.value;
             
-            nursApp.system.activityIndicator.setText('Posting...');
+            Ti.API.info('url: ' + url);
+            Ti.API.info('entryId ' + entryId);
+            nursApp.system.activityIndicator.setText('Updating...');
             nursApp.system.activityIndicator.openIndicator();
-            nursApp.ui['createBlogEntryWindow'].win.setTouchEnabled(false);
-            restCall.RESTfulCall('POST', url, restResponse, restError);
+            nursApp.ui['editBlogEntryWindow'].win.setTouchEnabled(false);
+            restCall.RESTfulCall('PUT', url, restResponse, restError);
             /*
             Ti.API.info('Checking is session is active before ending blog post');
             if(nursApp.system.isSessionActive())
@@ -216,122 +218,14 @@ function initialize (userInfo, blogTable)  {
         nursApp.navGroup.open(self);
     }
 
-    function restResponse(rawData)
-    {   
+    function restResponse(rawData) {   
         var TestflightTi = require('com.clinsoftsolutions.testflight');
-        TestflightTi.passCheckpoint("New Post successful");
-        
-        createRow();
+        TestflightTi.passCheckpoint("Edit Entry successful");
+        alert ("Updated");
         nursApp.system.activityIndicator.closeIndicator();
-        // Create window/view so it closes on exit
-        var buttonLabel = Titanium.UI.createLabel({
-            text:'OKAY',
-            color:'white',
-            font:{fontFamily:'Optima',fontSize:'14pt'}
-        });
-        
-        var button = Titanium.UI.createButton({
-            Title:'OKAY',
-            color:'white',
-            font:{fontFamily:'Optima',fontSize:'14pt'},
-            backgroundColor:'#0a5738',
-            width:90,
-            height:34,
-            top:182,
-            style: Titanium.UI.iPhone.SystemButtonStyle.PLAIN
-        });
-        button.add(buttonLabel);
-    
-        var alertLabel = Titanium.UI.createLabel({
-            text:'SUCCESSFULLY UPLOADED!',
-            font:{fontFamily:'Optima',fontSize:'16pt'},
-            color:'white',
-            top:150
-        });
-    
-        var alertView = Titanium.UI.createView({
-          backgroundColor:'#337359',
-          width:289,
-          height:322,
-          top:59
-        });
-        alertView.add(alertLabel);
-        alertView.add(button);
-        
-        var transWin = Titanium.UI.createWindow({
-            background:'transparent',
-            width:Titanium.UI.FILL,
-            height:Titanium.UI.FILL,
-            exitOnClose: true
-        })
-        transWin.add(alertView);
-        
-    
-        button.addEventListener('touchstart', function() {
-            button.backgroundColor = 'white';
-            buttonLabel.color = '#0a5738';
-        });
-        
-        button.addEventListener('click', function() {
-            transWin.remove(alertView);
-            nursApp.ui['createBlogEntryWindow'].win.setTouchEnabled(true);
-            nursApp.navGroup.close(nursApp.ui['createBlogEntryWindow'].win, {animated:true});
-            transWin.close();
-        }); 
-        
-        // attach to main window and show
-        //nursApp.mainWindow.add(transWin);
-        transWin.open();
         
     }
     
-    function createRow () {
-        var row = Titanium.UI.createTableViewRow({
-            rightImage:'green_arrow.png',
-        });
-        
-        var blogTitle = Titanium.UI.createLabel ({
-           text:title,
-           font:{fontFamily:'Optima', fontSize:19, fontWeight:'bold'},
-           width:180,
-           top: 10,
-           left: 15,
-           height:19
-        });
-        
-        var blogText = Titanium.UI.createLabel ({
-           text:text,
-           font:{fontFamily:'Optima', fontSize:15},
-           width:250,
-           bottom: 10,
-           left: 15,
-           height:15
-        });
-        
-        var time = new Date().getTime();
-        var milliTime = new Date(time);
-        var parsedTime = milliTime.getMonth()+1 + '.' + milliTime.getDate() + '.' + milliTime.getFullYear();
-        
-        var date = Titanium.UI.createLabel ({
-           text:parsedTime,
-           font:{fontFamily:'Optima', fontSize:12},
-           width:'auto',
-           right: 20,
-           top: 10
-        });
-        
-        row.add(blogTitle);
-        row.add(blogText);
-        row.add(date);
-        
-        if(blogTable.data.length == 0) {
-            blogTable.appendRow(row);
-        }
-        else {
-            blogTable.insertRowBefore(0 , row);
-        }
-        
-    }
     
     blogEntry();
 }

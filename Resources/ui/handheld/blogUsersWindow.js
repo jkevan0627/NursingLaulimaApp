@@ -6,6 +6,8 @@
  */
 function createListUsers (blogUsersData, classInfo) {
     
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.passCheckpoint("Retrieve blog users successful");
     nursApp.system.activityIndicator.closeIndicator();
     
     //top left button of the navgroup

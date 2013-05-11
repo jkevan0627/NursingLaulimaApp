@@ -12,6 +12,8 @@ function initialize (userInfo) {
     
     // Error Callback
     function errorCallback() {
+        var TestflightTi = require('com.clinsoftsolutions.testflight');
+        TestflightTi.passCheckpoint("Get Entry List ERROR");
         alert('there was an error');
         nursApp.ui['blogUsersWindow'].win.setTouchEnabled(true);
     }
@@ -28,10 +30,12 @@ function initialize (userInfo) {
     function createblogEntryLlist (blogEntryData) {
        var blogEntryParsedData = JSON.parse(blogEntryData);
        var blogEntries = blogEntryParsedData['blog-entry_collection'];
-        if(blogEntries.length == 0) {
+       
+        if (blogEntries.length == 0 && (userInfo.ownerId !== nursApp.userData.userId)) {     
             alert(userInfo.title + " has no blog entries for this class.");
             nursApp.ui['blogUsersWindow'].win.setTouchEnabled(true);
             nursApp.system.activityIndicator.closeIndicator();
+           
         }
         else {
             var blogEntry = require ('/ui/handheld/blogEntriesWindow');

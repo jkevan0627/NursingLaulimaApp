@@ -1,0 +1,113 @@
+<h1>testflightti Module</h1>
+
+<h2>Description</h2>
+
+<p>iOS module for integration with the <a href="https://testflightapp.com/sdk/download/">TestFlight SDK</a>
+You need to download the TestFlight SDK seperately.</p>
+
+<p>This way you (the developer) can control and upgrade the TestFlight SDK</p>
+
+<h2>Installation</h2>
+
+<p>See the <a href="http://wiki.appcelerator.org/display/tis/Using+Titanium+Modules">Appcelerator Wiki</a> for instructions on installing modules.</p>
+
+<p>In order to use the module you also need to <a href="https://testflightapp.com/sdk/download/">download</a> the
+TestFlight SDK from the TestFlight website.</p>
+
+<p>Then follow these steps:</p>
+
+<ol>
+<li>unzip the zip archive</li>
+<li>Copy the libTestFlight.a to /usr/local/lib</li>
+</ol>
+
+<h2>Accessing the testflightti Module</h2>
+
+<p>To access this module from JavaScript, you would do the following:</p>
+
+<pre><code>var testflightti = require("com.clinsoftsolutions.testflight");
+</code></pre>
+
+<p>The testflightti variable is a reference to the Module object.  </p>
+
+<h2>Reference</h2>
+
+<h3>testflightti.takeOff([teamToken], [testingFlag])</h3>
+
+<p>Initiate the Testflight SDK with the team token obtained from the TestFlight website.
+This is required and should be the first call to the module you make.</p>
+
+<p>Your team token can be obtained from the TestFlight website at
+<a href="https://testflightapp.com/dashboard/team/debugger/">a href="https://testflightapp.com/dashboard/team/debugger/"</a></p>
+
+<h3>setOptions({options});</h3>
+
+<p>Set SDK options. Pass a javascript object. Possible keys are:
+- logToConsole: true
+- logToSTDERR: true
+- sendLogOnlyOnCrash: false
+- attachBacktraceToFeedback: false
+- disableInAppUpdates: false</p>
+
+<p>All take bool values. Default values are shown</p>
+
+<h3>testException()</h3>
+
+<p>Raise an exception. Use to test crash reporting</p>
+
+<h3>passCheckpoint([checkpoint text])</h3>
+
+<p>Record that a checkpoint in the application has been passed. This will so log an INFO message on the
+console during debug sessions</p>
+
+<h3>launchFeedbackView()</h3>
+
+<p>Launch the SDK built in feedback window.</p>
+
+<h3>submitFeedback([feedback text])</h3>
+
+<p>Submit feedback text directly. This does not open the feedback window. So this can be used from
+your own custom form</p>
+
+<h3>remoteLog([log text])</h3>
+
+<p>Log some text remotely</p>
+
+<h3>addCustomEnvironmentInformation([key], [information])</h3>
+
+<p>Add custom environment information
+If you want to track custom information such as a user name from your application you can add it here</p>
+
+<ul>
+<li>key: The key to store the information with</li>
+<li>information: A string containing the environment you are storing</li>
+</ul>
+
+<h3>setTesting()</h3>
+
+<p>This sets the UDID in the testflight SDK. ONLY use in testing.
+<em>Note that if you upload an app to Apple with this set then your app WILL BE REJECTED</em>.</p>
+
+<h3>oldUDID</h3>
+
+<p>Return the old iOS UDID (This will not work on SDK &gt;5.1 as apple have depreciated it).
+Do not use in production / release app. Apple will reject your binary</p>
+
+<h2>Exmaple Usage</h2>
+
+<pre><code>var TF = require("com.clinsoftsolutions.testflight");
+TF.takeOff('___ TEAM TOKEN ID ___');
+TF.passCheckpoint("Application started");
+</code></pre>
+
+<h2>Author</h2>
+
+<p>Clinical Software Solutions Ltd</p>
+
+<p>Support email:
+tisupport@clinicalsoftwaresolutions.co.uk</p>
+
+<h2>License</h2>
+
+<p>All Copyright retained by Clinical Software Solutions Ltd
+The module can be installed and distributed with applications. No other re-distribution allowed</p>

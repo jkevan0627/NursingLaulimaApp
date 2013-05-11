@@ -16,6 +16,8 @@ function intialize (classData) {
 }
 
 function errorCallBack () {
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.passCheckpoint("Get Blog Users ERROR");
     alert("Couldn't get any user. Please try again.");
     nursApp.ui['classesWindow'].win.setTouchEnabled(true);
 }

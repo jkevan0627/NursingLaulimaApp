@@ -8,7 +8,7 @@
     <property name="acs-api-key-development" type="string">yJ6RRZemboPFCRB77XBRuDf9OcZnmPSu</property>
     <id>edu.hawaii.sondh.nursinglaulima</id>
     <name>NursingLaulimaApp</name>
-    <version>1.0</version>
+    <version>2.0</version>
     <publisher>Alex</publisher>
     <url>http://</url>
     <description>not specified</description>
@@ -23,6 +23,9 @@
     <analytics>true</analytics>
     <guid>0a70e5e1-140c-441e-8eb8-94c6627e4ace</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
+    <ios>
+        <min-ios-ver>4.3</min-ios-ver>
+    </ios>
     <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
@@ -45,6 +48,7 @@
     </mobileweb>
     <modules>
         <module platform="commonjs">ti.cloud</module>
+        <module platform="iphone" version="1.0.5">com.clinsoftsolutions.testflight</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

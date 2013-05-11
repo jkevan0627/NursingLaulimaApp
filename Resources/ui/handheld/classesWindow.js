@@ -2,6 +2,8 @@
  * Create the list of classes that has the blog tool
  */
 function createListClasses () {
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.passCheckpoint("Login Successful");
     
     //close the indicator
     nursApp.system.activityIndicator.closeIndicator();

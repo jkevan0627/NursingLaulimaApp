@@ -5,6 +5,10 @@
  * userInfo - info of the user selected.
  */
 function createBlogEntryList (blogEntries, userInfo) {
+    
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.passCheckpoint("Retrieve blog entries successful");
+    
     nursApp.system.activityIndicator.closeIndicator();
     //top left button of the navgroup
     var btnLeft = Ti.UI.createButton({
@@ -61,12 +65,15 @@ function createBlogEntryList (blogEntries, userInfo) {
         
         var blogTitle = Titanium.UI.createLabel ({
            text:blogEntries[i].title,
+           entryId: blogEntries[i].id,
            font:{fontFamily:'Optima', fontSize:19, fontWeight:'bold'},
            width:180,
            top: 10,
            left: 15,
            height:19
         });
+        
+        
         
         var blogText = Titanium.UI.createLabel ({
            text:blogEntries[i].text,
@@ -107,6 +114,25 @@ function createBlogEntryList (blogEntries, userInfo) {
     self.add(blogTable);
     
     nursApp.navGroup.open(self, {animated:true});
+    
+    if (blogEntries.length == 0 && (userInfo.ownerId === nursApp.userData.userId)) {
+            
+            var dialog = Ti.UI.createAlertDialog({
+                yes: 0,
+                no: 1,
+                buttonNames: ['Yes', 'No'],
+                message: 'Would you like to create your first entry for this blog?',
+                title: 'First Post Entry'
+            });
+            
+            dialog.addEventListener('click', function(e){
+                if (e.index === e.source.yes){
+                     var createBlogEntry = require ('/ui/handheld/createBlogEntryWindow');
+            createBlogEntry.initialize(userInfo, blogTable);
+                }
+            });
+            dialog.show();        
+    }
 }
 
 /**

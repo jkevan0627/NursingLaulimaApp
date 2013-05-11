@@ -29,6 +29,8 @@ function onErrorCallback (status) {
     else {
         alert ('Bad internet connection. Please try again.');
     }
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.passCheckpoint("Data Initialization ERROR");
     nursApp.system.deleteUserData();
     nursApp.ui['loginWindow'].win.setTouchEnabled(true);
 }
@@ -40,6 +42,22 @@ function onErrorCallback (status) {
  password - user's password	
 **/
 exports.getLaulimaData = function (username, password) {
+    
+    var TestflightTi = require('com.clinsoftsolutions.testflight');
+    TestflightTi.takeOff("c33a52bb-1bbb-4065-9c20-1bf36f84f36e", true);
+
+    // Set the options for TestFlight SDK
+    // In this example the options are only set to the standard defaults
+    TestflightTi.setOptions({
+        logToConsole: true,
+        logToSTDERR: true,
+        sendLogOnlyOnCrash: false,
+        attachBacktraceToFeedback: false,
+        disableInAppUpdates: false
+    });
+
+
+
     //show that something is working at the back-end.
     nursApp.system.activityIndicator.setText('Connecting to Laulima');
     nursApp.system.activityIndicator.openIndicator();
